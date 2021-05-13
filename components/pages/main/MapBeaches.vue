@@ -1,0 +1,180 @@
+<template>
+	<div class="map-beaches-main">
+		<client-only>
+			<perfect-scrollbar class="scroll-area" :options="options">
+				<div class="map-beaches-main__card" v-for="(beach, i) in getBeaches" :id="`smc-${i}`" :class="{ active : activeCard == i}">
+					<div class="map-beaches-main__card__pic-area">
+						<a :href="`/beach/${beach.beachId}`" @click.prevent="$bus.goTo(`/beach/${beach.beachId}`, $router)">
+							<img :src="beach.pics[0]">
+						</a>
+						<AddToFavorites :data="beach" />
+					</div>
+					<div class="map-beaches-main__card__info-area">
+						<div class="map-beaches-main__card__rating-area">
+							<img src="~/static/pics/global/svg/star.svg" alt="Рейтинг">
+							<span>{{ beach.rating.toFixed(1) }}</span>
+						</div>
+						<a :href="`/beach/${beach.beachId}`" @click.prevent="$bus.goTo(`/beach/${beach.beachId}`, $router)">
+							<h3 class="map-beaches-main__card__title">{{ beach.title }}</h3>
+						</a>
+						<a :href="`/search?city=${beach.locationId}`" @click.prevent="searchCity(beach)">
+							<h5 class="map-beaches-main__card__location">{{ beach.location }}</h5>
+						</a>
+					</div>
+				</div>
+			</perfect-scrollbar>
+		</client-only>
+		<div class="map-beaches-main__slider">
+			<div v-swiper:mySwiper="swiperOption">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide map-beaches-main__slide" v-for="(beach, i) in getBeaches" :class="{ active : activeCard == i}">
+						<div class="map-beaches-main__card__pic-area">
+							<a href="/" @click.prevent="$bus.goTo('/', $router)">
+								<img class="map-beaches-main__card__pic" :src="beach.pics[0]">
+							</a>
+							<AddToFavorites :data="beach" />
+						</div>
+						<div class="map-beaches-main__card__info-area">
+							<div class="map-beaches-main__card__rating-area">
+								<img src="~/static/pics/global/svg/star.svg" alt="Рейтинг">
+								<span>{{ beach.rating.toFixed(1) }}</span>
+							</div>
+							<a href="/" @click.prevent="$bus.goTo('/', $router)">
+								<h3 class="map-beaches-main__card__title">{{ beach.title }}</h3>
+							</a>
+							<a :href="`/search?city=${beach.locationId}`" @click.prevent="searchCity(beach)">
+								<h5 class="map-beaches-main__card__location">{{ beach.location }}</h5>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="pagination-wrapper">
+				<div class="custom-pagination">
+					<button @click="mySwiper.slideTo(i)" class="custom-pagination-bullet" v-for="(b,i) in Math.max(getBeachesNumber - minus, 0)" :class="{ 'custom-pagination-bullet-active' : i == activeIndex }"></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	import Vue from 'vue';
+	import AddToFavorites from '~/components/global/AddToFavorites';
+
+	export default {
+		props: ['data'],
+
+		components: {
+			AddToFavorites
+		},
+
+		beforeMount () {
+			if (process.browser) {
+				require('swiper/dist/css/swiper.css');
+				const VueAwesomeSwiper = require('vue-awesome-swiper/dist/ssr');
+				Vue.use(VueAwesomeSwiper);
+			}
+		},
+
+		computed: {
+			getBeachesNumber() {
+				let sum = 0;
+				if (this.data)
+					this.data.forEach(chunk => { sum += chunk.beaches.length });
+				return sum;
+			},
+
+			getBeaches() {
+				let allBeaches = [];
+				for (let i = 0; i < this.data.length; i++) {
+					for (let j = 0; j < this.data[i].beaches.length; j++)
+						allBeaches.push(this.data[i].beaches[j]);
+				}
+				return allBeaches
+			}
+		},
+
+		data() {
+			return {
+				options: {
+					swipeEasing: true
+				},
+				swiperOption: {
+					spaceBetween: 20,
+					slidesPerView: 2,
+					observer: true,
+					observeParent: true,
+					init: false,
+					breakpoints: {
+						400: {
+							slidesPerView: 1
+						}
+					}
+				},
+				arrowY: 0,
+				activeIndex: 0,
+				activeCard: -1,
+				minus: 1
+			}
+		},
+
+		mounted() {
+			this.mySwiper.on('imagesReady', () => {
+				window.addEventListener('resize', this.onResize);
+				this.onResize();
+			});
+
+			this.mySwiper.on('slideChange', () => {
+				this.activeIndex = this.mySwiper.activeIndex;
+			});
+
+			this.$bus.$on('goToCard', (i) => {
+				this.activeCard = i;
+				if (window.innerWidth > 800)
+					this.scrollToCard(i);
+				else
+					this.slideToCard(i);
+			});
+
+			this.$bus.$on('changeStep', () => {
+				if (this.mySwiper) {
+					this.mySwiper.slideNext();
+					this.mySwiper.slidePrev();
+				}
+			})
+
+			this.$bus.$on('releaseSelection', () => {
+				this.activeCard = -1;
+			})
+
+			this.mySwiper.init(this.swiperOption);
+		},
+
+		methods: {
+			onResize() {
+				this.arrowY = this.$el.querySelector('.map-beaches-main__card__pic').offsetHeight / 2;
+
+				if (window.innerWidth > 400)
+					this.minus = 1;
+				else this.minus = 0;
+			},
+
+			scrollToCard(i) {
+				if (this.$el.querySelector('.scroll-area') && this.$el.querySelector(`#smc-${i}`) && this.$el.querySelector('.scroll-area'))
+					this.$el.querySelector('.scroll-area').scrollTop = this.$el.querySelector(`#smc-${i}`).offsetTop - this.$el.querySelector('.scroll-area').offsetTop;
+			},
+
+			slideToCard(i) {
+				if (this.mySwiper)
+					this.mySwiper.slideTo(i);
+			},
+
+			searchCity(data) {
+		      this.$bus.$emit('emptySearchParams');
+		      this.$bus.$emit('updateSearchParam', { param: 'cities', value: { title: data.location, id: data.locationId }});
+		      setTimeout(() => {this.$bus.$emit('search')}, 1);
+		    }
+		}
+	}
+</script>
