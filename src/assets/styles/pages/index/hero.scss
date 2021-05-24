@@ -1,0 +1,26 @@
+.index-hero {
+  background: url("/images/index/singapore.jpeg") no-repeat center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+
+  &__location {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    color: rgb(255, 255, 255);
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+
+    span {
+      display: block;
+      margin-left: 5px;
+      padding-top: 2px;
+    }
+  }
+}
