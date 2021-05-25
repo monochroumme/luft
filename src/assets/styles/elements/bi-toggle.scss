@@ -1,0 +1,24 @@
+.bi-toggle {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  .custom-toggler {
+    &__placeholder {
+      position: absolute;
+      white-space: nowrap;
+
+      &:first-child {
+        margin-right: 12px;
+        margin-left: 0;
+        right: 50%;
+        transform: translateX(-20px);
+      }
+
+      &:last-child {
+        left: 50%;
+        transform: translateX(20px);
+      }
+    }
+  }
+}

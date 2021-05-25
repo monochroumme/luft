@@ -1,0 +1,57 @@
+.custom-toggler {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+
+  &__toggle {
+    min-width: 32px;
+    width: 32px;
+    height: 20px;
+    font-size: 16px;
+    line-height: 100%;
+    padding: 0 10px;
+    border: none;
+    border-radius: 700px;
+    background: $color-blue;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: background .2s ease;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    &.active {
+      background: white;
+
+      &:after {
+        background: $color-blue;
+        transform: translateX(12px);
+      }
+    }
+  }
+
+  &__placeholder {
+    margin-left: 12px;
+    display: block;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    padding-top: 2px;
+    transition: color .2s ease, font-weight .2s ease;
+
+    &.active {
+      color: $color-blue;
+      font-weight: bold;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+.custom-input-travellers-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .info {
+    .title {
+      font-size: 16px;
+      color: #000000;
+    }
+
+    .description {
+      font-size: 12px;
+      line-height: 120%;
+    }
+
+    span {
+      display: block;
+      line-height: 100%;
+    }
+  }
+
+  .adjuster {
+    display: flex;
+    justify-content: space-between;
+    width: 70px;
+    position: relative;
+    margin-right: -5px;
+
+    button {
+      font-size: 20px;
+      padding: 0 5px;
+    }
+
+    .value {
+      font-size: 16px;
+      color: #000000;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

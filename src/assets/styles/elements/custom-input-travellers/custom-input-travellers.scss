@@ -1,0 +1,30 @@
+.custom-input-travellers {
+  .el-popover__reference-wrapper {
+    .el-button {
+      width: 100%;
+      text-align: left;
+      border-radius: 6px;
+      padding: 10px 16px 8px;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 120%;
+      height: 40px;
+
+      &:hover, &:focus {
+        color: $color-gray;
+        background: white;
+        border-color: $color-blue;
+      }
+    }
+  }
+
+  &__popup {
+    .custom-input-travellers-item {
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

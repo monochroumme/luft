@@ -1,0 +1,35 @@
+.custom-input-calendar {
+  .el-input {
+    &__icon {
+      display: none;
+    }
+  }
+
+  .el-date-editor {
+    width: 100%;
+  }
+
+  .el-range {
+    &-input {
+      width: 50%;
+    }
+
+    &-separator {
+      margin-top: -10px;
+      margin-bottom: -8px;
+      background: #E8E8E8;
+      width: 1px;
+      min-height: 40px;
+      padding: 0;
+      transition: background-color .2s ease;
+    }
+  }
+
+  &:hover {
+    .el-range {
+      &-separator {
+        background: $color-blue;
+      }
+    }
+  }
+}
