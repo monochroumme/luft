@@ -69,10 +69,62 @@ svg {
 
 .container {
   width: 100%;
-  max-width: 1250px;
+  max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
   padding: 60px 30px;
+}
+
+.section {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 100%;
+  }
+
+  &__navigation {
+    display: flex;
+    margin-left: 30px;
+
+    .swiper-button {
+      &-next, &-prev {
+        position: static;
+        top: unset;
+        left: unset;
+        right: unset;
+        margin: 0;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        padding: 0;
+        border: 1px solid #E8E8E8;
+        border-radius: 50%;
+        background-color: #fff;
+        cursor: pointer;
+
+        &:after {
+          display: none;
+        }
+      }
+
+      &-next {
+        transform: rotate(180deg);
+        padding-right: 2px;
+      }
+
+      &-prev {
+        margin-right: 8px;
+        padding-right: 2px;
+      }
+    }
+  }
 }
 
 .fade-enter-active, .fade-leave-active {

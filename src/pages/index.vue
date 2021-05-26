@@ -1,13 +1,15 @@
 <template>
   <main class="index-page">
     <Hero />
+    <Tours />
   </main>
 </template>
 
 <script>
 export default {
   components: {
-    Hero: () => import('@/containers/index/Hero')
+    Hero: () => import('@/containers/index/Hero'),
+    Tours: () => import('@/containers/index/Tours')
   }
 }
 </script>
