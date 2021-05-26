@@ -101,7 +101,7 @@ export default {
       locationTo: '',
       tripType: 'round', // one-way
       tripClass: 'eco', // eco / premium / business / first
-      dateFrom: new Date(),
+      dateFrom: '',
       dateTo: '',
       adultNumber: 1,
       childNumber: 0,

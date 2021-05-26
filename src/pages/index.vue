@@ -1,8 +1,10 @@
 <template>
   <main class="index-page">
     <Hero />
-    <Tours />
-    <popular-destinations />
+    <div class="index-page__rest">
+      <Tours />
+      <popular-destinations />
+    </div>
   </main>
 </template>
 
