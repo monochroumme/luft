@@ -3,7 +3,8 @@
   background-size: cover;
   width: 100%;
   min-height: 100vh;
-  position: relative;
+  position: sticky;
+  top: 0;
 
   &__location {
     position: absolute;

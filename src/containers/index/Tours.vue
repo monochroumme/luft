@@ -66,5 +66,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/pages/index/tours.scss'
+@import '@/assets/styles/pages/index/tours.scss';
 </style>

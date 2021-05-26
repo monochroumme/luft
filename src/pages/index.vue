@@ -2,6 +2,7 @@
   <main class="index-page">
     <Hero />
     <Tours />
+    <popular-destinations />
   </main>
 </template>
 
@@ -9,7 +10,8 @@
 export default {
   components: {
     Hero: () => import('@/containers/index/Hero'),
-    Tours: () => import('@/containers/index/Tours')
+    Tours: () => import('@/containers/index/Tours'),
+    PopularDestinations: () => import('@/containers/index/PopularDestinations')
   }
 }
 </script>
