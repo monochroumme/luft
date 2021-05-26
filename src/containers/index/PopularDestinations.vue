@@ -36,15 +36,19 @@
           </article>
         </div>
       </div>
-      <div class="index-popular-destinations__pagination" v-swiper:mySwiperPagination="swiperOptionPagination">
-        <div class="swiper-wrapper">
-          <button
-            class="swiper-slide item"
-            :key="i"
-            v-for="(item, i) in (popularDestinations || defaultPopularDestinations)"
-          >
-            <span>{{ item.city }}</span>
-          </button>
+      <div class="index-popular-destinations__pagination">
+        <div class="index-popular-destinations__pagination-container container">
+          <div class="index-popular-destinations__pagination-slider" v-swiper:mySwiperPagination="swiperOptionPagination">
+            <div class="swiper-wrapper">
+              <button
+                class="swiper-slide item"
+                :key="i"
+                v-for="(item, i) in (popularDestinations || defaultPopularDestinations)"
+              >
+                <span>{{ item.city }}</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

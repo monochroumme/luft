@@ -1,7 +1,8 @@
 .index-popular-destinations {
   background: #fff;
-  position: sticky;
-  top: 0;
+  //position: sticky;
+  //top: 0;
+  position: relative;
   z-index: 1;
   width: 100%;
   min-height: 100vh;
@@ -22,14 +23,23 @@
   }
 
   &__pagination {
-    height: 64px;
-    background: #FFFFFF;
-    border-radius: 8px;
     position: absolute;
     right: 76px;
     bottom: 32px;
     left: 76px;
-    overflow: hidden;
+
+    &-container {
+      max-width: 1128px;
+      height: 64px;
+      padding: 0 !important;
+      background: #FFFFFF;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    &-slider {
+      height: 100%;
+    }
 
     .item {
       width: fit-content;
