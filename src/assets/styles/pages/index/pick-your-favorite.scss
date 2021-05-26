@@ -71,13 +71,15 @@
       text-shadow: 0 0 50px #000;
     }
 
-    &:hover {
-      &:after {
-        opacity: 1;
-      }
+    @media (hover: hover) {
+      &:hover {
+        &:after {
+          opacity: 1;
+        }
 
-      h3 {
-        opacity: 0.66;
+        h3 {
+          opacity: 0.66;
+        }
       }
     }
   }

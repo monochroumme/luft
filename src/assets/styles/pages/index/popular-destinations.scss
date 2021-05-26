@@ -100,14 +100,15 @@
         min-width: 40px;
         height: 40px;
         margin-left: auto;
+        border-radius: 50%;
+        box-shadow: 0 0 0 #fff;
+        animation: blink-shadow 2s infinite;
 
         svg {
           width: 40px;
           height: 40px;
           object-fit: contain;
           fill: white;
-          border-radius: 50%;
-          box-shadow: 0 0 0 #fff;
           animation: blink-fill 2s infinite;
         }
 
@@ -115,10 +116,18 @@
           100%,
           0% {
             fill: #fff;
-            box-shadow: 0 0 8px #fff;
           }
           60% {
             fill: #e0e0e0;
+          }
+        }
+
+        @keyframes blink-shadow {
+          100%,
+          0% {
+            box-shadow: 0 0 8px #fff;
+          }
+          60% {
             box-shadow: 0 0 0 #e0e0e0;
           }
         }
