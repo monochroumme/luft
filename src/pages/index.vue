@@ -4,6 +4,7 @@
     <div class="index-page__rest">
       <Tours />
       <popular-destinations />
+      <pick-your-favorite />
     </div>
   </main>
 </template>
@@ -13,7 +14,8 @@ export default {
   components: {
     Hero: () => import('@/containers/index/Hero'),
     Tours: () => import('@/containers/index/Tours'),
-    PopularDestinations: () => import('@/containers/index/PopularDestinations')
+    PopularDestinations: () => import('@/containers/index/PopularDestinations'),
+    PickYourFavorite: () => import('@/containers/index/PickYourFavorite')
   }
 }
 </script>

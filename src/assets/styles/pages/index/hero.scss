@@ -1,10 +1,18 @@
 .index-hero {
-  background: url("/images/index/singapore.jpeg") no-repeat center;
-  background-size: cover;
   width: 100%;
   min-height: 100vh;
-  position: sticky;
-  top: 0;
+  //position: sticky;
+  //top: 0;
+
+  &__content {
+    background: url("/images/index/singapore.jpeg") no-repeat center;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+  }
 
   &__location {
     position: absolute;

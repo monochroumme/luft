@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import tours from './tours'
 import popularDestinations from './popularDestinations'
+import favorites from './favorites'
 // import apiRequest from '@/utils/apiRequest'
 
 Vue.use(Vuex)
@@ -9,7 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     tours,
-    popularDestinations
+    popularDestinations,
+    favorites
   },
 
   state: {

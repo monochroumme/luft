@@ -78,6 +78,9 @@ export default {
         slidesPerView: 'auto',
         centeredSlides: true,
         slideToClickedSlide: true,
+        mousewheel: {
+          forceToAxis: true
+        },
         init: false
       },
 
