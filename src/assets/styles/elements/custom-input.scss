@@ -20,6 +20,10 @@
         border-color: $color-blue;
       }
     }
+
+    &__suffix {
+      display: none;
+    }
   }
 
   &-option {

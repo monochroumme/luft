@@ -75,3 +75,12 @@
     overflow: visible;
   }
 }
+
+@media (max-width: 450px) {
+  .index-tours {
+    &__slide {
+      width: 220px;
+      height: 220px;
+    }
+  }
+}

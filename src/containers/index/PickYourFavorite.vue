@@ -25,8 +25,19 @@ export default {
   data () {
     return {
       swiperOption: {
-        slidesPerView: 5,
-        spaceBetween: 10
+        slidesPerView: 2,
+        spaceBetween: 10,
+        breakpoints: {
+          601: {
+            slidesPerView: 5
+          },
+          501: {
+            slidesPerView: 4
+          },
+          401: {
+            slidesPerView: 3
+          }
+        }
       }
     }
   },

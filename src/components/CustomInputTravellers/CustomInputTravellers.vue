@@ -2,7 +2,7 @@
   <div class="custom-input custom-input-travellers">
     <el-popover
       placement="bottom"
-      width="320"
+      width="290"
       trigger="click">
 
       <div class="custom-input-travellers__popup">

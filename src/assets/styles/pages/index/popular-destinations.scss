@@ -153,3 +153,82 @@
     }
   }
 }
+
+@media (max-width: 600px) {
+  .index-popular-destinations {
+    padding-bottom: 150px;
+
+    .container {
+      padding: 0 30px;
+    }
+
+    &__pagination {
+      left: 30px;
+      right: 30px;
+
+      .item {
+        padding: 0 30px;
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .index-popular-destinations {
+    padding-bottom: 100px;
+
+    &__title {
+      margin-bottom: 40px;
+    }
+
+    &__slide {
+      .left {
+        h3 {
+          font-size: 40px;
+        }
+      }
+
+      .right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+      }
+    }
+
+    &__pagination {
+      .item {
+        padding: 0 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .index-popular-destinations {
+    &__title {
+      line-height: 1.2;
+    }
+
+    &__slide {
+      .left {
+        h3 {
+          font-size: 32px;
+        }
+      }
+
+      .right {
+        a {
+          width: 30px;
+          min-width: 30px;
+          height: 30px;
+
+          svg {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+    }
+  }
+}
