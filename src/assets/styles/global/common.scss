@@ -127,6 +127,18 @@ svg {
   }
 }
 
+.text-center {
+  text-align: center !important;
+}
+
+.w100 {
+  width: 100% !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }

@@ -8,6 +8,8 @@ import getAwesomeSwiper from 'vue-awesome-swiper/dist/exporter'
 import { Swiper as SwiperClass, Mousewheel, Navigation, EffectFade, Controller } from 'swiper/js/swiper.esm'
 import 'swiper/css/swiper.css'
 
+import vClickOutside from 'v-click-outside'
+
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -19,6 +21,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI, { locale })
 SwiperClass.use([Mousewheel, Navigation, EffectFade, Controller])
 Vue.use(getAwesomeSwiper(SwiperClass))
+Vue.use(vClickOutside)
 
 new Vue({
   router,

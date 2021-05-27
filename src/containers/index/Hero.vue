@@ -141,10 +141,10 @@ export default {
         .get(`https://flightglossaryapi.travix.com/EN/airports?search=${input}&extendedsearch=false`
           , true)
         .then(res => {
-          this[`${type}Locations`] = res.data?.map(d => ({
+          this[`${type}Locations`] = res.data?.map ? res.data.map(d => ({
             title: `${d.CityName} (${d.Code}), ${d.CountryName}`,
             value: d.Code
-          }))
+          })) : []
         })
         .catch(e => console.error(e))
       this[`${type}LocationsLoading`] = false
