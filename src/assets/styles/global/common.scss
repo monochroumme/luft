@@ -75,6 +75,14 @@ svg {
   padding: 60px 30px;
 }
 
+.el-popover {
+  outline: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .section {
   &__header {
     display: flex;
