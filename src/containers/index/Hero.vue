@@ -44,6 +44,7 @@
               :trip-type="tripType"
               @set-date-from="dateFrom = $event"
               @set-date-to="dateTo = $event"
+              @set-header-visible="$emit('set-header-visible', $event)"
             />
           </transition>
           <transition name="fade">

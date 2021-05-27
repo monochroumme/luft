@@ -1,6 +1,6 @@
 <template>
   <main class="index-page">
-    <Hero />
+    <Hero @set-header-visible="$emit('set-header-visible', $event)" />
     <div class="index-page__rest">
       <Tours />
       <popular-destinations />

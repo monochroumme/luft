@@ -6,6 +6,8 @@
       :min-date="new Date()"
       :columns="$screens({ default: 1, sm: 2 })"
       :masks="masks"
+      @popoverWillShow="setMobileHeaderVisibility(false)"
+      @popoverDidHide="setMobileHeaderVisibility(true)"
       @input="onDateChange"
     >
       <template v-slot="{ inputValue, inputEvents }">
@@ -66,6 +68,11 @@ export default {
         this.$emit('set-date-from', date.start)
         this.$emit('set-date-to', date.end)
       }
+    },
+
+    setMobileHeaderVisibility (visibility) {
+      if (window.innerWidth <= 600)
+        this.$emit('set-header-visible', visibility)
     }
   }
 }

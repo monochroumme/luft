@@ -156,3 +156,11 @@
     }
   }
 }
+
+@media (max-width: 360px) {
+  .index-hero {
+    &__card {
+      padding: 16px 10px;
+    }
+  }
+}
