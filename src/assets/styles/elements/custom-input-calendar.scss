@@ -1,34 +1,72 @@
 .custom-input-calendar {
-  .el-input {
-    &__icon {
-      display: none;
-    }
-  }
-
-  .el-date-editor {
+  input {
+    border-radius: 6px;
+    height: 40px;
     width: 100%;
+    padding: 10px 16px 8px;
+    color: #606266;
+    font-size: 14px;
+    line-height: 120%;
+    border: 1px solid transparent;
+    transition: border-color .2s ease;
   }
 
-  .el-range {
-    &-input {
-      width: 50%;
-    }
-
-    &-separator {
-      margin-top: -10px;
-      margin-bottom: -8px;
-      background: #E8E8E8;
-      width: 1px;
-      min-height: 40px;
-      padding: 0;
-      transition: background-color .2s ease;
+  .single, .range {
+    &:hover {
+      input {
+        border-color: $color-blue;
+      }
     }
   }
 
-  &:hover {
-    .el-range {
-      &-separator {
+  .single {
+    input {
+      font-size: 16px;
+      line-height: 150%;
+    }
+  }
+
+  .range {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      &:after {
         background: $color-blue;
+      }
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #E8E8E2;
+      width: 1px;
+      height: 100%;
+    }
+
+    input {
+      &:first-child {
+        border-radius: 6px 0 0 6px;
+        border-right: none;
+      }
+
+      &:last-child {
+        border-radius: 0 6px 6px 0;
+        border-left: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .custom-input-calendar {
+    .range {
+      input {
+        padding-left: 10px;
+        padding-right: 10px;
       }
     }
   }

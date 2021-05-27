@@ -24,27 +24,27 @@
             />
           </transition>
           <transition name="fade" mode="out-in">
-              <bi-toggle
-                v-if="locationTo"
-                key="bi-toggle"
-                left-title="Round trip"
-                right-title="One way"
-                left-value="round"
-                right-value="one-way"
-                v-model="tripType"
-              />
+            <bi-toggle
+              v-if="locationTo"
+              key="bi-toggle"
+              left-title="Round trip"
+              right-title="One way"
+              left-value="round"
+              right-value="one-way"
+              v-model="tripType"
+            />
           </transition>
           <transition name="fade" mode="out-in">
-              <custom-input-calendar
-                v-if="locationTo"
-                :key="tripType"
-                placeholder="Departure date"
-                :date-from="dateFrom"
-                :date-to="dateTo"
-                :trip-type="tripType"
-                @set-date-from="dateFrom = $event"
-                @set-date-to="dateTo = $event"
-              />
+            <custom-input-calendar
+              v-if="locationTo"
+              :key="tripType"
+              placeholder="Departure date"
+              :date-from="dateFrom"
+              :date-to="dateTo"
+              :trip-type="tripType"
+              @set-date-from="dateFrom = $event"
+              @set-date-to="dateTo = $event"
+            />
           </transition>
           <transition name="fade">
             <div
@@ -118,6 +118,14 @@ export default {
 
   mounted () {
     this.testApis()
+  },
+
+  watch: {
+    tripType () {
+      if (this.tripType === 'one-way') {
+        this.dateTo = ''
+      }
+    }
   },
 
   methods: {

@@ -9,6 +9,7 @@ import { Swiper as SwiperClass, Mousewheel, Navigation, EffectFade, Controller }
 import 'swiper/css/swiper.css'
 
 import vClickOutside from 'v-click-outside'
+import VCalendar from 'v-calendar'
 
 import App from './App.vue'
 import './registerServiceWorker'
@@ -22,6 +23,7 @@ Vue.use(ElementUI, { locale })
 SwiperClass.use([Mousewheel, Navigation, EffectFade, Controller])
 Vue.use(getAwesomeSwiper(SwiperClass))
 Vue.use(vClickOutside)
+Vue.use(VCalendar)
 
 new Vue({
   router,

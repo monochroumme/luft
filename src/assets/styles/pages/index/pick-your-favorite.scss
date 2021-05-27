@@ -6,6 +6,10 @@
     &__header {
       margin-bottom: 40px;
     }
+
+    &__navigation {
+      display: none;
+    }
   }
 
   &__slider {
@@ -118,6 +122,10 @@
     .section {
       &__header {
         margin-bottom: 20px;
+      }
+
+      &__navigation {
+        display: flex;
       }
     }
   }

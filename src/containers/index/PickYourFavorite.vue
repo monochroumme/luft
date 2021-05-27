@@ -2,6 +2,14 @@
   <main class="index-pick-your-favorite container">
     <header class="section__header">
       <h2 class="section__title">Pick your your favorite</h2>
+      <div class="section__navigation">
+        <div class="swiper-button-prev">
+          <img src="@/assets/svg/arrow-left.svg" svg-inline alt="">
+        </div>
+        <div class="swiper-button-next">
+          <img src="@/assets/svg/arrow-left.svg" svg-inline alt="">
+        </div>
+      </div>
     </header>
     <div class="index-pick-your-favorite__slider" v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
@@ -27,6 +35,13 @@ export default {
       swiperOption: {
         slidesPerView: 2,
         spaceBetween: 10,
+        mousewheel: {
+          forceToAxis: true
+        },
+        navigation: {
+          nextEl: '.index-pick-your-favorite .swiper-button-next',
+          prevEl: '.index-pick-your-favorite .swiper-button-prev'
+        },
         breakpoints: {
           601: {
             slidesPerView: 5

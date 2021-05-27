@@ -1,16 +1,36 @@
 <template>
   <div class="custom-input custom-input-calendar">
-    <el-date-picker
+    <v-date-picker
       v-model="dateValue"
-      :type="tripType === 'round' ? 'daterange' : 'date'"
-      range-separator=""
-      :picker-options="datePickerOptions"
-      format="d MMMM yyyy"
-      start-placeholder="Departure date"
-      placeholder="Departure date"
-      end-placeholder="Return date"
-      @change="onDateChange"
-    />
+      :is-range="tripType === 'round'"
+      :min-date="new Date()"
+      :columns="$screens({ default: 1, sm: 2 })"
+      :masks="masks"
+      @input="onDateChange"
+    >
+      <template v-slot="{ inputValue, inputEvents }">
+        <div v-if="tripType === 'round'" class="range">
+          <input
+            :value="inputValue.start"
+            v-on="inputEvents.start"
+            placeholder="Departure date"
+          />
+          <input
+            v-if="tripType === 'round'"
+            :value="inputValue.end"
+            v-on="inputEvents.end"
+            placeholder="Return date"
+          />
+        </div>
+        <div v-else class="single">
+          <input
+            :value="inputValue"
+            v-on="inputEvents"
+            placeholder="Departure date"
+          />
+        </div>
+      </template>
+    </v-date-picker>
   </div>
 </template>
 
@@ -26,28 +46,25 @@ export default {
 
   data () {
     return {
+      masks: {
+        input: 'D MMMM YYYY'
+      },
       dateValue: this.tripType === 'round'
-        ? [this.dateFrom, this.dateTo]
-        : this.dateFrom,
-
-      datePickerOptions: {
-        disabledDate (date) {
-          const today = new Date()
-          const yesterday = new Date()
-          yesterday.setDate(today.getDate() - 1)
-          return date < yesterday
+        ? {
+          start: this.dateFrom,
+          end: this.dateTo
         }
-      }
+        : this.dateFrom
     }
   },
 
   methods: {
     onDateChange (date) {
-      if (typeof date === 'string')
+      if (!date.start) {
         this.$emit('set-date-from', date)
-      else {
-        this.$emit('set-date-from', date[0])
-        this.$emit('set-date-to', date[1])
+      } else {
+        this.$emit('set-date-from', date.start)
+        this.$emit('set-date-to', date.end)
       }
     }
   }
