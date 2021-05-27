@@ -45,7 +45,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    margin-top: 12px;
+    margin-top: 8px;
     transform: translateY(40px) scaleY(0);
     transform-origin: top;
     transition: transform .1s ease;
@@ -54,6 +54,22 @@
     z-index: 10;
     border: 1px solid #EBEEF5;
     padding: 6px 12px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg) translateX(-50%);
+      background: #ffffff;
+    }
+
+    &__content {
+      position: relative;
+      z-index: 1;
+    }
 
     ul {
       max-height: 300px;

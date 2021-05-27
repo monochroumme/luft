@@ -13,21 +13,23 @@
       <span v-if="!inputValue && value">{{ shownValue }}</span>
     </div>
     <div class="custom-input__dropdown" :class="{active: isDropdownActive}">
-      <transition name="fade" mode="out-in">
-        <span class="text-center w100 d-block" v-if="loading">Loading</span>
-        <span class="text-center w100 d-block" v-else-if="!options.length">No data</span>
-        <ul v-else-if="options.length">
-          <li
-              v-for="(item, i) in options"
-              :key="i"
-              :class="{active: value === item.value}"
-              @click="onSelect(item.value)"
-          >
-            <span class="left">{{ item.title }}</span>
-            <span class="right">{{ item.value }}</span>
-          </li>
-        </ul>
-      </transition>
+      <div class="custom-input__dropdown-content">
+        <transition name="fade" mode="out-in">
+          <span class="text-center w100 d-block" v-if="loading">Loading</span>
+          <span class="text-center w100 d-block" v-else-if="!options.length">No data</span>
+          <ul v-else-if="options.length">
+            <li
+                v-for="(item, i) in options"
+                :key="i"
+                :class="{active: value === item.value}"
+                @click="onSelect(item.value)"
+            >
+              <span class="left">{{ item.title }}</span>
+              <span class="right">{{ item.value }}</span>
+            </li>
+          </ul>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
