@@ -3,7 +3,9 @@
     <el-popover
       placement="bottom"
       width="290"
-      trigger="click">
+      trigger="click"
+      :tabindex="-1"
+    >
 
       <div class="custom-input-travellers__popup">
         <custom-input-travellers-item

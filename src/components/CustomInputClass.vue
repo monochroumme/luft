@@ -6,6 +6,7 @@
       trigger="click"
       popper-class="custom-input-class__popup"
       ref="popover"
+      :tabindex="-1"
     >
 
       <ul class="custom-input-class__list">
