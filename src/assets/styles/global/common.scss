@@ -300,6 +300,26 @@ svg {
       position: relative;
     }
   }
+
+  &-navigation-arrow {
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    width: 32px;
+    transform: rotate(-180deg);
+    transition: transform .2s ease;
+    cursor: pointer;
+    z-index: 100000;
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    &.back {
+      transform: rotate(-90deg);
+    }
+  }
 }
 
 @media (max-width: 600px) {

@@ -47,60 +47,74 @@
       </div>
     </section>
     <section class="card-wrapper mt-24">
-      <div class="card w1024 search-page__items-wrapper">
+      <div class="card w1024 search-page__items-wrapper" :class="{loading}">
+        <loading :active.sync="loading"
+                 :can-cancel="false"
+                 :is-full-page="false"></loading>
+
         <div class="search-page__items">
           <div class="search-page__item" v-for="(item, i) in paginatedData" :key="i">
-          <div class="search-page__item-col">
-            <div class="search-page__item-content">
-              <div class="search-page__item-primary">
-                7:30 PM – 9:40 PM
+            <div class="search-page__item-col">
+              <div class="search-page__item-content">
+                <div class="search-page__item-primary">
+                  {{ getTime(item) }}
+                </div>
+                <div class="search-page__item-additional">
+                  {{ getCarriers(item) }}
+                </div>
               </div>
-              <div class="search-page__item-additional">
-                Lufthansa, United
+            </div>
+            <div class="search-page__item-col">
+              <div class="search-page__item-content">
+                <div class="search-page__item-secondary">
+                  {{ getDuration(item) }}
+                </div>
+                <div class="search-page__item-additional">
+                  {{ getAirports(item) }}
+                </div>
+              </div>
+            </div>
+            <div class="search-page__item-col">
+              <div class="search-page__item-content">
+                <div class="search-page__item-secondary">
+                  {{ getNumberOfStops(item) }}
+                </div>
+                <div class="search-page__item-additional">
+                  {{ getStops(item) }}
+                </div>
+              </div>
+            </div>
+            <div class="search-page__item-col">
+              <div class="search-page__item-content">
+                <div class="search-page__item-primary">
+                  {{ getPrice(item) }}
+                </div>
+                <div class="search-page__item-additional">
+                  {{ dateTo ? 'round trip' : 'one-way' }}
+                </div>
               </div>
             </div>
           </div>
-          <div class="search-page__item-col">
-            <div class="search-page__item-content">
-              <div class="search-page__item-secondary">
-                18 hr 31 min
-              </div>
-              <div class="search-page__item-additional">
-                GYD–LGA
-              </div>
-            </div>
-          </div>
-          <div class="search-page__item-col">
-            <div class="search-page__item-content">
-              <div class="search-page__item-secondary">
-                2 stops
-              </div>
-              <div class="search-page__item-additional">
-                YUL, FRA
-              </div>
-            </div>
-          </div>
-          <div class="search-page__item-col">
-            <div class="search-page__item-content">
-              <div class="search-page__item-primary">
-                AZN 1,986
-              </div>
-              <div class="search-page__item-additional">
-                round trip
-              </div>
-            </div>
-          </div>
-        </div>
         </div>
       </div>
+      <button
+        class="search-page__more"
+        v-if="totalOptions && totalOptions > page * perPage"
+        @click="page++"
+      >
+        Show more
+      </button>
     </section>
+
+    <div class="page-navigation-arrow" :class="{ back: !scrolledToTop }" @click="onArrowClick">
+      <img svg-inline src="@/assets/svg/arrow.svg" alt="Navigation">
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
-// import apiRequest from '@/utils/apiRequest'
 
 export default {
   name: 'search',
@@ -117,11 +131,15 @@ export default {
       tripClass: '',
 
       page: 1,
-      perPage: 6
+      perPage: 6,
+      loading: true,
+      scrolledToTop: true
     }
   },
 
   async mounted () {
+    this.initListeners()
+
     this.locationFrom = this.$route.query.from
     this.locationTo = this.$route.query.to
     this.dateFrom = this.$route.query.date_from
@@ -144,8 +162,7 @@ export default {
       date_to: this.dateTo
     })
 
-    // const res = await apiRequest.get('https://faresearchdirectapi.prd.travix.com/GroupedResults?Language=EN&Cid=441fac3c-a8d5-40a1-8b73-7f3a79cf7ca4&Affiliate=CheapticketsNL&adt=1&inf=0&chd=0&cls=Y&out0_dep=BAK&out0_arr=NYC&out0_date=20210814', true)
-    // console.log(res.data)
+    this.loading = false
   },
 
   computed: {
@@ -163,6 +180,10 @@ export default {
 
     paginatedData () {
       return this.flightsData?._embedded?.Options?.slice(0, this.page * this.perPage) || []
+    },
+
+    totalOptions () {
+      return this.flightsData?._embedded?.Options?.length || 0
     }
   },
 
@@ -171,7 +192,100 @@ export default {
 
     formattedDate (date) {
       return moment(date)?.format('D MMM YYYY') ?? date
+    },
+
+    initListeners () {
+      window.addEventListener('scroll', this.onScroll)
+    },
+
+    removeListeners () {
+      window.removeEventListener('scroll', this.onScroll)
+    },
+
+    onScroll () {
+      this.scrolledToTop = window.scrollY === 0
+    },
+
+    onArrowClick () {
+      if (window.scrollY > 0) {
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        })
+      } else {
+        this.$router.push('/')
+      }
+    },
+
+    getPrice (item) {
+      const fare = item.Fares?.[0]
+      if (fare) {
+        return `${fare.CurrencyCode} ${fare.Total}`
+      }
+      return '–'
+    },
+
+    getTime (item) {
+      const outboundOption = item.OutboundOptions?.[0]
+      if (outboundOption) {
+        return `${moment(outboundOption.DepartureDateTime).format('LT')} – ${moment(outboundOption.ArrivalDateTime).format('LT')}`
+      }
+      return '–'
+    },
+
+    getCarriers (item) {
+      const outboundOption = item.OutboundOptions?.[0],
+        inboundOption = item.InboundOptions?.[0]
+      return `${outboundOption ? outboundOption?.Carrier?.DisplayName : ''}${inboundOption ? `, ${inboundOption?.Carrier?.DisplayName}` : ''}` || '-'
+    },
+
+    getAirports (item) {
+      const outboundOption = item.OutboundOptions?.[0]
+      if (outboundOption) {
+        return `${outboundOption.DepartureAirport?.Code}–${outboundOption.ArrivalAirport?.Code}`
+      }
+      return '–'
+    },
+
+    getDuration (item) { // 18 hr 31 min
+      const outboundOption = item.OutboundOptions?.[0]
+      if (outboundOption) {
+        const duration = moment(outboundOption.DepartureDateTime).subtract(outboundOption.ArrivalDateTime)
+        return `${duration.format('HH')} hr ${duration.format('mm')} min`
+      }
+      return '–'
+    },
+
+    getNumberOfStops (item) {
+      const outboundOption = item.OutboundOptions?.[0]
+      if (outboundOption) {
+        if (outboundOption.NrOfStops === 0) {
+          return 'nonstop'
+        } else if (outboundOption.NrOfStops === 1) {
+          return '1 stop'
+        } else if (outboundOption.NrOfStops > 1) {
+          return `${outboundOption.NrOfStops} stops`
+        }
+      }
+      return '–'
+    },
+
+    getStops (item) {
+      const outboundOption = item.OutboundOptions?.[0]
+      if (outboundOption && outboundOption.SegmentOptions?.length) {
+        return outboundOption.SegmentOptions
+          .slice(0, outboundOption.NrOfStops)
+          .map(o => o.Arrival?.Code)
+          .join(', ')
+      }
+      return '–'
     }
+  },
+
+  beforeRouteLeave (to, from, next) {
+    this.removeListeners()
+    next()
   }
 }
 </script>

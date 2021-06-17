@@ -11,6 +11,9 @@ import 'swiper/css/swiper.css'
 import vClickOutside from 'v-click-outside'
 import VCalendar from 'v-calendar'
 
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -24,6 +27,8 @@ SwiperClass.use([Mousewheel, Navigation, EffectFade, Controller])
 Vue.use(getAwesomeSwiper(SwiperClass))
 Vue.use(vClickOutside)
 Vue.use(VCalendar)
+Vue.use(VueLoading)
+Vue.component('loading', VueLoading)
 
 new Vue({
   router,
