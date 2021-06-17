@@ -32,22 +32,22 @@ const handleError = (e) => {
 
 export default class apiRequest {
   static get (path, noBaseApiUrl) {
-    return request(axios.get(noBaseApiUrl ? path : `${process.env.API_URL}/${path}`, headers()))
+    return request(axios.get(noBaseApiUrl ? path : `${process.env.VUE_APP_BASE_API_URL}/${path}`, headers()))
   }
 
   static post (path, data, noBaseApiUrl) {
-    return request(axios.post(noBaseApiUrl ? path : `${process.env.API_URL}/${path}`, data, headers()))
+    return request(axios.post(noBaseApiUrl ? path : `${process.env.VUE_APP_BASE_API_URL}/${path}`, data, headers()))
   }
 
   static put (path, data, noBaseApiUrl) {
-    return request(axios.put(noBaseApiUrl ? path : `${process.env.API_URL}/${path}`, data, headers()))
+    return request(axios.put(noBaseApiUrl ? path : `${process.env.VUE_APP_BASE_API_URL}/${path}`, data, headers()))
   }
 
   static delete (path, noBaseApiUrl) {
-    return request(axios.delete(noBaseApiUrl ? path : `${process.env.API_URL}/${path}`, headers()))
+    return request(axios.delete(noBaseApiUrl ? path : `${process.env.VUE_APP_BASE_API_URL}/${path}`, headers()))
   }
 
   static postFormData (path, data, noBaseApiUrl) {
-    return request(axios.post(noBaseApiUrl ? path : `${process.env.API_URL}/${path}`, data, headersFormData()))
+    return request(axios.post(noBaseApiUrl ? path : `${process.env.VUE_APP_BASE_API_URL}/${path}`, data, headersFormData()))
   }
 }

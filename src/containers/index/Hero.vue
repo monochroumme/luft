@@ -70,6 +70,7 @@
           <button
             v-if="locationFrom && locationTo && (tripType === 'round' ? dateFrom && dateTo : dateFrom)"
             class="index-hero__search-btn"
+            @click="searchFlights"
           >
             <span>Search</span>
           </button>
@@ -86,6 +87,7 @@
 <script>
 import { mapActions } from 'vuex'
 import apiRequest from '@/utils/apiRequest'
+import moment from 'moment'
 import { debounce } from '@/utils/debounce'
 
 export default {
@@ -157,7 +159,28 @@ export default {
         })
         .catch(e => console.error(e))
       this[`${type}LocationsLoading`] = false
-    }, 300)
+    }, 300),
+
+    searchFlights () {
+      const query = {
+        from: this.locationFrom,
+        to: this.locationTo,
+        date_from: moment(this.dateFrom).format('YYYY-MM-DD'),
+        adults: this.adultNumber,
+        children: this.childNumber,
+        infants: this.infantNumber,
+        class: this.tripClass
+      }
+
+      if (this.dateTo) {
+        query.date_to = moment(this.dateTo).format('YYYY-MM-DD')
+      }
+
+      this.$router.push({
+        name: 'search',
+        query
+      })
+    }
   }
 }
 </script>

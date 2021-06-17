@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'CustomInputClass',
 
@@ -35,34 +37,9 @@ export default {
     value: String
   },
 
-  data () {
-    return {
-      classes: [
-        {
-          title: 'Economy',
-          slug: 'eco',
-          class: '$'
-        },
-        {
-          title: 'Premium Economy',
-          slug: 'premium',
-          class: '$+'
-        },
-        {
-          title: 'Business',
-          slug: 'business',
-          class: '$$'
-        },
-        {
-          title: 'First',
-          slug: 'first',
-          class: '$$$'
-        }
-      ]
-    }
-  },
-
   computed: {
+    ...mapState(['classes']),
+
     buttonText () {
       return this.classes.find(c => c.slug === this.value)?.class
     }

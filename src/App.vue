@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="fade">
-      <Header v-if="isHeaderVisible"/>
+      <Header v-if="isHeaderVisible" :dark="isFlippedColorsPage" :static-header="isStaticHeaderPage"/>
     </transition>
     <router-view @set-header-visible="isHeaderVisible = $event"/>
   </div>
@@ -15,7 +15,15 @@ export default {
 
   data () {
     return {
-      isHeaderVisible: true
+      isHeaderVisible: true,
+
+      flippedColorsPages: [
+        'search'
+      ],
+
+      staticHeaderPages: [
+        'search'
+      ]
     }
   },
 
@@ -25,6 +33,16 @@ export default {
         this.isHeaderVisible = true
       }
     })
+  },
+
+  computed: {
+    isFlippedColorsPage () {
+      return this.flippedColorsPages.findIndex(i => i === this.$route.name) !== -1
+    },
+
+    isStaticHeaderPage () {
+      return this.staticHeaderPages.findIndex(i => i === this.$route.name) !== -1
+    }
   }
 }
 </script>

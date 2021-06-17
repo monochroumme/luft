@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../pages/index.vue'
+import Search from '../pages/search.vue'
 
 Vue.use(VueRouter)
 
@@ -10,7 +11,25 @@ const routes = [
     name: 'index',
     component: Index,
     meta: {
-      title: 'Luft',
+      title: 'Luft | Travel smart',
+      metaTags: [
+        {
+          name: 'description',
+          content: 'Plan your trips beforehand'
+        },
+        {
+          property: 'og:description',
+          content: 'Plan your trips beforehand'
+        }
+      ]
+    }
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: Search,
+    meta: {
+      title: 'Luft | Search results',
       metaTags: [
         {
           name: 'description',

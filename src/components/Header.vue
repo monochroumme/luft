@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header" :class="{dark, static: staticHeader}">
     <div class="header__container container">
       <div class="left">
         <router-link to="/" class="logo">
@@ -12,7 +12,18 @@
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+
+  props: {
+    dark: {
+      type: Boolean,
+      default: false
+    },
+    staticHeader: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 
