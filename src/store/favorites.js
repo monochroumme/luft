@@ -1,30 +1,10 @@
+import apiRequest from '@/utils/apiRequest'
+
 export default {
   namespaced: true,
 
   state: {
-    favorites: null,
-    defaultFavorites: [
-      {
-        city: 'Paris',
-        image: '/images/index/favorites/paris.jpeg'
-      },
-      {
-        city: 'Milan',
-        image: '/images/index/favorites/milan.jpeg'
-      },
-      {
-        city: 'New York',
-        image: '/images/index/favorites/new-york.jpeg'
-      },
-      {
-        city: 'Tokyo',
-        image: '/images/index/favorites/tokyo.jpeg'
-      },
-      {
-        city: 'Sydney',
-        image: '/images/index/favorites/sydney.jpeg'
-      }
-    ]
+    favorites: null
   },
 
   mutations: {
@@ -34,7 +14,9 @@ export default {
   },
 
   actions: {
-    getFavorites () {
+    async getFavorites ({ commit }) {
+      const res = await apiRequest.get('favorites')
+      commit('setFavorites', res.data?.items)
     }
   }
 }

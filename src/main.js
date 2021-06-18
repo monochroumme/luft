@@ -14,6 +14,8 @@ import VCalendar from 'v-calendar'
 import VueLoading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 
+import Toasted from 'vue-toasted'
+
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -29,6 +31,9 @@ Vue.use(vClickOutside)
 Vue.use(VCalendar)
 Vue.use(VueLoading)
 Vue.component('loading', VueLoading)
+Vue.use(Toasted, {
+  duration: 7500
+})
 
 new Vue({
   router,

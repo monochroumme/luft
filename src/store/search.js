@@ -10,6 +10,10 @@ export default {
   mutations: {
     setFlightsData (state, payload) {
       state.flightsData = payload
+    },
+
+    clearFlights (state) {
+      state.flightsData = null
     }
   },
 

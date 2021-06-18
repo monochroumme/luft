@@ -4,9 +4,10 @@
       <div class="index-popular-destinations__bg">
         <transition name="quick-fade" mode="out-in">
           <img
+            v-if="popularDestinations"
             :key="activeIndex"
-            :src="(popularDestinations || defaultPopularDestinations)[activeIndex].image"
-            :alt="(popularDestinations || defaultPopularDestinations)[activeIndex].city"
+            :src="uploadUrl + (popularDestinations)[activeIndex].images"
+            :alt="(popularDestinations)[activeIndex].city"
           >
         </transition>
       </div>
@@ -14,36 +15,34 @@
       <div class="index-popular-destinations__slider" v-swiper:mySwiper="swiperOption">
         <div class="swiper-wrapper">
           <article class="swiper-slide index-popular-destinations__slide" :key="i"
-                   v-for="(item, i) in (popularDestinations || defaultPopularDestinations)">
+                   v-for="(item, i) in (popularDestinations || [])">
             <div class="left">
               <h3>{{ item.city }}</h3>
               <h4>{{ item.country }}</h4>
               <p>{{ item.description }}</p>
             </div>
             <div class="right">
-<!--            TODO on click this will ask the user's location, -->
-<!--            TODO then using the location, it will determine the first airport   -->
-<!--            TODO and using that info it will lead to the flights page   -->
-              <a title="Plan your trip">
+              <button title="Plan your trip" @click="onCompassClick" :class="{loading}">
                 <img
                   src="@/assets/svg/compass.svg"
                   svg-inline
                   alt="Plan your trip"
                   title="Plan your trip"
                 >
-              </a>
+              </button>
             </div>
           </article>
         </div>
       </div>
       <div class="index-popular-destinations__pagination">
         <div class="index-popular-destinations__pagination-container container">
-          <div class="index-popular-destinations__pagination-slider" v-swiper:mySwiperPagination="swiperOptionPagination">
+          <div class="index-popular-destinations__pagination-slider"
+               v-swiper:mySwiperPagination="swiperOptionPagination">
             <div class="swiper-wrapper">
               <button
                 class="swiper-slide item"
                 :key="i"
-                v-for="(item, i) in (popularDestinations || defaultPopularDestinations)"
+                v-for="(item, i) in (popularDestinations || [])"
               >
                 <span>{{ item.city }}</span>
               </button>
@@ -84,7 +83,8 @@ export default {
         init: false
       },
 
-      activeIndex: 0
+      activeIndex: 0,
+      loading: false
     }
   },
 
@@ -103,11 +103,26 @@ export default {
   },
 
   computed: {
-    ...mapState('popularDestinations', ['popularDestinations', 'defaultPopularDestinations'])
+    ...mapState('popularDestinations', ['popularDestinations']),
+    ...mapState(['userCity']),
+
+    uploadUrl () {
+      return process.env.VUE_APP_UPLOAD_URL
+    }
   },
 
   methods: {
-    ...mapActions('popularDestinations', ['getPopularDestinations'])
+    ...mapActions('popularDestinations', ['getPopularDestinations']),
+    ...mapActions(['makeATrip']),
+
+    async onCompassClick () {
+      this.loading = true
+      await this.makeATrip({
+        locationTo: this.popularDestinations[this.activeIndex].city,
+        router: this.$router
+      })
+      this.loading = false
+    }
   }
 }
 </script>

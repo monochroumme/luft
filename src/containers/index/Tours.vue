@@ -14,10 +14,10 @@
       </header>
       <div class="index-tours__slider" v-swiper:mySwiper="swiperOption">
         <div class="swiper-wrapper">
-          <article class="swiper-slide index-tours__slide" :key="i" v-for="(item, i) in (tours || defaultTours)">
+          <article class="swiper-slide index-tours__slide" :key="i" v-for="(item, i) in (tours || [])">
             <div class="image-wrapper">
               <h3>{{ item.title }}</h3>
-              <img :src="item.images ? item.images[0] : ''" :alt="item.title">
+              <img :src="item.images ? uploadUrl + item.images[0] : ''" :alt="item.title">
             </div>
             <div class="bottom">
               {{ item.city }} from ${{ item.priceUsd }}
@@ -56,7 +56,11 @@ export default {
   },
 
   computed: {
-    ...mapState('tours', ['tours', 'defaultTours'])
+    ...mapState('tours', ['tours']),
+
+    uploadUrl () {
+      return process.env.VUE_APP_UPLOAD_URL
+    }
   },
 
   methods: {

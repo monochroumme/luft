@@ -85,7 +85,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import apiRequest from '@/utils/apiRequest'
 import moment from 'moment'
 import { debounce } from '@/utils/debounce'
@@ -119,10 +118,6 @@ export default {
     }
   },
 
-  mounted () {
-    this.testApis()
-  },
-
   watch: {
     tripType () {
       if (this.tripType === 'one-way') {
@@ -132,8 +127,6 @@ export default {
   },
 
   methods: {
-    ...mapActions(['testApis']),
-
     onLocationSearch ({
       input,
       type
@@ -146,11 +139,9 @@ export default {
     },
 
     searchLocations: debounce(async function (input, type) {
-      // TODO change this to the backend call
       this[`${type}LocationsLoading`] = true
       await apiRequest
-        .get(`https://flightglossaryapi.travix.com/EN/airports?search=${input}&extendedsearch=false`
-          , true)
+        .get(`search/airport?search=${input}`)
         .then(res => {
           this[`${type}Locations`] = res.data?.map ? res.data.map(d => ({
             title: `${d.CityName} (${d.Code}), ${d.CountryName}`,

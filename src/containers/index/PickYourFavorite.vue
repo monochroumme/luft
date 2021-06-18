@@ -13,9 +13,10 @@
     </header>
     <div class="index-pick-your-favorite__slider" v-swiper:mySwiper="swiperOption">
       <div class="swiper-wrapper">
-        <a class="swiper-slide index-pick-your-favorite__slide" :key="i" v-for="(item, i) in (favorites || defaultFavorites)">
+        <a class="swiper-slide index-pick-your-favorite__slide" :key="i" v-for="(item, i) in (favorites || [])"
+           @click="onFavClick(item)">
           <div class="image-wrapper">
-            <img :src="item.image" :alt="item.city">
+            <img :src="uploadUrl + item.images" :alt="item.city">
           </div>
           <h3>{{ item.city }}</h3>
         </a>
@@ -61,48 +62,64 @@ export default {
     await this.getFavorites()
   },
 
-  mounted () {
-    const clamp = function (val, min, max) {
-      return Math.min(Math.max(val, min), max)
-    }
-    const slideOffsets = [
-      -10,
-      20,
-      50,
-      20,
-      50
-    ]
-    const slides = Array.from(this.mySwiper.slides),
-      slider = this.$el
-    const maxOffset = .4,
-      elOffsetTop = 120,
-      minWindowOffset = () => slider.offsetTop + elOffsetTop + window.innerHeight,
-      maxWindowOffset = () => slider.offsetTop + elOffsetTop + window.innerHeight * (1 + maxOffset),
-      currentOffset = () => window.scrollY + window.innerHeight,
-      calcPercentage = () => (clamp(currentOffset(), minWindowOffset(), maxWindowOffset()) - minWindowOffset()) /
-        (maxWindowOffset() - minWindowOffset())
-    let percentage
+  watch: {
+    favorites () {
+      this.$nextTick(() => {
+        const clamp = function (val, min, max) {
+          return Math.min(Math.max(val, min), max)
+        }
+        const slideOffsets = [
+          -10,
+          20,
+          50,
+          20,
+          50
+        ]
+        const slides = Array.from(this.mySwiper.slides),
+          slider = this.$el
+        const maxOffset = .4,
+          elOffsetTop = 120,
+          minWindowOffset = () => slider.offsetTop + elOffsetTop + window.innerHeight,
+          maxWindowOffset = () => slider.offsetTop + elOffsetTop + window.innerHeight * (1 + maxOffset),
+          currentOffset = () => window.scrollY + window.innerHeight,
+          calcPercentage = () => (clamp(currentOffset(), minWindowOffset(), maxWindowOffset()) - minWindowOffset()) /
+            (maxWindowOffset() - minWindowOffset())
+        let percentage
 
-    window.addEventListener('scroll', () => {
-      if (window.innerWidth > 600) {
-        percentage = calcPercentage()
-        for (let i = 0; i < slides.length; i++) {
-          slides[i].style.transform = `translateY(${slideOffsets[i] * percentage}px)`
-        }
-      } else {
-        for (let i = 0; i < slides.length; i++) {
-          slides[i].style.transform = 'translateY(0px)'
-        }
-      }
-    })
+        window.addEventListener('scroll', () => {
+          if (window.innerWidth > 600) {
+            percentage = calcPercentage()
+            for (let i = 0; i < slides.length; i++) {
+              slides[i].style.transform = `translateY(${slideOffsets[i] * percentage}px)`
+            }
+          } else {
+            for (let i = 0; i < slides.length; i++) {
+              slides[i].style.transform = 'translateY(0px)'
+            }
+          }
+        })
+      })
+    }
   },
 
   computed: {
-    ...mapState('favorites', ['favorites', 'defaultFavorites'])
+    ...mapState('favorites', ['favorites']),
+
+    uploadUrl () {
+      return process.env.VUE_APP_UPLOAD_URL
+    }
   },
 
   methods: {
-    ...mapActions('favorites', ['getFavorites'])
+    ...mapActions('favorites', ['getFavorites']),
+    ...mapActions(['makeATrip']),
+
+    async onFavClick (item) {
+      await this.makeATrip({
+        locationTo: item.city,
+        router: this.$router
+      })
+    }
   }
 }
 </script>

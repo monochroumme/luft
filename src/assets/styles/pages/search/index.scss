@@ -126,6 +126,12 @@
     }
   }
 
+  &__no-results {
+    padding: 30px;
+    text-align: center;
+    width: 100%;
+  }
+
   &__more {
     display: block;
     margin: 14px auto 0;

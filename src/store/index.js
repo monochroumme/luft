@@ -5,6 +5,7 @@ import popularDestinations from './popularDestinations'
 import search from './search'
 import favorites from './favorites'
 import apiRequest from '@/utils/apiRequest'
+import moment from 'moment'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,7 @@ export default new Vuex.Store({
   },
 
   state: {
-    res: null,
+    userCity: null,
 
     classes: [
       {
@@ -48,20 +49,52 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    setRes (state, payload) {
-      state.res = payload
+    setUserCity (state, payload) {
+      state.userCity = payload
     }
   },
 
   actions: {
-    async testApis ({ commit }) {
-      // https://flightglossaryapi.travix.com/EN/airports/NYC
-      // https://faresearchdirectapi.prd.travix.com/searchoptions?Language=EN&Cid=4f54fe45-0223-4717-b4ae-b8585f809129&Affiliate=CheapticketsNL
-      // https://api.cheaptickets.nl/l-EN/cid-4f54fe45-0223-4717-b4ae-b8585f809129?adt=1&chd=0&cls=Y&inf=0&out0_arr=NYC&out0_arr_all=false&out0_date=2021-06-01&out0_dep=BAK&out0_dep_all=false&in0_date=2021-06-07
-      // airport search https://flightglossaryapi.travix.com/EN/airports?search=bak&extendedsearch=false
-      // airport search https://www.kayak.com/mv/marvel?f=j&s=13&where=gyd&lc_cc=US&lc=en&sv=5&cv=undefined&c=undefined&searchId=undefined&v=undefined
-      const res = await apiRequest.get('', true)
-      commit('setRes', res.data)
+    async makeATrip ({ state }, { locationTo, router }) {
+      if (!state.userCity) {
+        Vue.prototype.$toasted.error('Sorry, we couldn\'t learn your location, this feature is not available')
+      } else {
+        await apiRequest
+          .get(`search/airport?search=${state.userCity}`)
+          .then(async res => {
+            const userLocations = res.data ?? []
+
+            if (userLocations?.length) {
+              await apiRequest
+                .get(`search/airport?search=${locationTo}`)
+                .then(res => {
+                  const placeLocations = res.data ?? []
+
+                  if (placeLocations?.length) {
+                    const query = {
+                      from: userLocations[0].Code,
+                      to: placeLocations[0].Code,
+                      date_from: moment().add(7, 'd').format('YYYY-MM-DD'),
+                      date_to: moment().add(14, 'd').format('YYYY-MM-DD'),
+                      adults: 1,
+                      children: 0,
+                      infants: 0,
+                      class: 'eco'
+                    }
+
+                    router.push({
+                      name: 'search',
+                      query
+                    })
+                  } else {
+                    Vue.prototype.$toasted.error('Sorry, we couldn\'t learn your location, this feature is not available')
+                  }
+                })
+            } else {
+              Vue.prototype.$toasted.error('Sorry, we couldn\'t learn your location, this feature is not available')
+            }
+          })
+      }
     }
   }
 })

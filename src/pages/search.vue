@@ -52,7 +52,9 @@
                  :can-cancel="false"
                  :is-full-page="false"></loading>
 
-        <div class="search-page__items">
+        <span class="search-page__no-results" v-if="totalOptions === 0 && !loading">No results</span>
+
+        <div class="search-page__items" v-if="totalOptions">
           <div class="search-page__item" v-for="(item, i) in paginatedData" :key="i">
             <div class="search-page__item-col">
               <div class="search-page__item-content">
@@ -113,7 +115,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -189,6 +191,7 @@ export default {
 
   methods: {
     ...mapActions('search', ['getFlights']),
+    ...mapMutations('search', ['clearFlights']),
 
     formattedDate (date) {
       return moment(date)?.format('D MMM YYYY') ?? date
@@ -285,6 +288,7 @@ export default {
 
   beforeRouteLeave (to, from, next) {
     this.removeListeners()
+    this.clearFlights()
     next()
   }
 }
